@@ -1,7 +1,6 @@
 storage "postgresql" {
-  connection_url = "{{env \"DATABASE_URL\"}}"
-  table          = "vault_kv_store"
-  ha_enabled     = "false"
+  table      = "vault_kv_store"
+  ha_enabled = "false"
 }
 
 listener "tcp" {
