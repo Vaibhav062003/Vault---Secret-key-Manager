@@ -1,6 +1,7 @@
 FROM hashicorp/vault:latest
 
-COPY config/vault-postgres.hcl /vault/config/vault.hcl
+# Remove default/conflicting config files so Vault cleanly loads VAULT_LOCAL_CONFIG
+RUN rm -rf /vault/config/*
 
 EXPOSE 8200
 
