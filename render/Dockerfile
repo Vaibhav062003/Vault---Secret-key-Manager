@@ -1,8 +1,9 @@
 FROM hashicorp/vault:latest
 
-# Remove default/conflicting config files so Vault cleanly loads VAULT_LOCAL_CONFIG
-RUN rm -rf /vault/config/*
-
 EXPOSE 8200
 
-CMD ["server"]
+# Bypass docker-entrypoint.sh (which fails on Render due to setcap/IPC_LOCK restrictions)
+ENTRYPOINT []
+
+# Create config directory, write VAULT_LOCAL_CONFIG if present, and start vault server
+CMD ["sh", "-c", "mkdir -p /vault/config && if [ -n \"$VAULT_LOCAL_CONFIG\" ]; then echo \"$VAULT_LOCAL_CONFIG\" > /vault/config/local.json; fi && exec vault server -config=/vault/config"]
