@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  vault1:
+    image: hashicorp/vault:latest
+    container_name: vault1
+    restart: unless-stopped
+    ports:
+      - "8200:8200"
+    volumes:
+      - ./config/vault1.hcl:/vault/config/vault.hcl:ro
+      - vault1_data:/vault/file
+    command: server
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_ADDR=http://127.0.0.1:8200
+
+  vault2:
+    image: hashicorp/vault:latest
+    container_name: vault2
+    restart: unless-stopped
+    ports:
+      - "8202:8200"
+    volumes:
+      - ./config/vault2.hcl:/vault/config/vault.hcl:ro
+      - vault2_data:/vault/file
+    command: server
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_ADDR=http://127.0.0.1:8200
+
+  vault3:
+    image: hashicorp/vault:latest
+    container_name: vault3
+    restart: unless-stopped
+    ports:
+      - "8204:8200"
+    volumes:
+      - ./config/vault3.hcl:/vault/config/vault.hcl:ro
+      - vault3_data:/vault/file
+    command: server
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_ADDR=http://127.0.0.1:8200
+
+volumes:
+  vault1_data:
+  vault2_data:
+  vault3_data:

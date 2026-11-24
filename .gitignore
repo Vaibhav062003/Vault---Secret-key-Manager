@@ -1,0 +1,13 @@
+# Ignore sensitive credentials and keys
+.vault-credentials.json
+.vault-token
+*.unseal.json
+*.key
+*.pem
+.env
+.env.*
+!.env.example
+data/
+vault1_data/
+vault2_data/
+vault3_data/

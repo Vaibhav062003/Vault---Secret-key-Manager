@@ -1,0 +1,4 @@
+# Replace YOUR_DOMAIN with your DuckDNS or custom domain, e.g. heidelai-vault.duckdns.org
+{$VAULT_DOMAIN:localhost} {
+    reverse_proxy vault:8200
+}

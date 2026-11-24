@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  vault:
+    image: hashicorp/vault:latest
+    container_name: vault
+    restart: always
+    environment:
+      - VAULT_ADDR=http://127.0.0.1:8200
+      - VAULT_API_ADDR=http://127.0.0.1:8200
+    volumes:
+      - ./config/vault.hcl:/vault/config/vault.hcl:ro
+      - vault_data:/vault/file
+    ports:
+      - "127.0.0.1:8200:8200"
+    command: server
+    cap_add:
+      - IPC_LOCK
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - vault
+
+volumes:
+  vault_data:
+  caddy_data:
+  caddy_config:
